@@ -5,7 +5,7 @@ import axios from "axios";
 
 const signupUrl = "http://localhost:8080/register";
 const Signup = () => {
-
+    const [isRegistered, setIsRegistered] = useState(false);
     const onFinish = (values) => {
         console.log('Success:', values);
         axios({
@@ -37,6 +37,7 @@ const Signup = () => {
                 // this.props.history.push({
                 //     pathname: '/',
                 // })
+                setIsRegistered(true);
             })
             .catch((error) => {
                 console.log("error: ", error)
@@ -51,6 +52,7 @@ const Signup = () => {
         <>
             <Row style={{height: "100vh"}} justify="center" align="middle">
                 <Col span={8}>
+                    {isRegistered ? <span>Registered Successfully</span> : <span></span>}
                     <Form
                         name="basic"
                         labelCol={{
@@ -136,7 +138,7 @@ const Signup = () => {
                                 span: 16,
                             }}
                         >
-                            <Button type="primary" htmlType="submit" >
+                            <Button type="primary" htmlType="submit">
                                 Submit
                             </Button>
                         </Form.Item>
