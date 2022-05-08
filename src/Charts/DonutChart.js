@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import FusionCharts from 'fusioncharts';
 import Charts from 'fusioncharts/fusioncharts.charts';
@@ -8,42 +8,56 @@ import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 // Resolves charts dependancy
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 
-const dataSource = {
-    chart: {
-        caption: "Android Distribution for our app",
-        subcaption: "For all users in 2017",
-        showpercentvalues: "1",
-        defaultcenterlabel: "Android Distribution",
-        aligncaptionwithcanvas: "0",
-        captionpadding: "0",
-        decimals: "1",
-        plottooltext:
-            "<b>$percentValue</b> of our Android users are on <b>$label</b>",
-        centerlabel: "# Users: $value",
-        theme: "fusion"
-    },
-    data: [
-        {
-            label: "Ice Cream Sandwich",
-            value: "1000"
-        },
-        {
-            label: "Jelly Bean",
-            value: "5300"
-        },
-    ]
-};
+const DonutChart = ({epochData}) => {
+    const [intensityData, setIntensityData] = useState([]);
+    // let intensityData = [];
 
-const chartConfigs = {
-    type: "doughnut2d",
-    width: "100%",
-    height: "100%",
-    dataFormat: "JSON",
-    dataSource: dataSource
-};
+    const dataSource = {
+        chart: {
+            caption: "Activities Intensity",
+            // subcaption: "For all users in 2017",
+            showpercentvalues: "1",
+            // defaultcenterlabel: "Android Distribution",
+            aligncaptionwithcanvas: "0",
+            captionpadding: "0",
+            decimals: "1",
+            plottooltext:
+                "<b>$percentValue</b> of activities belong to <b>$label</b>",
+            centerlabel: "# Users: $value",
+            theme: "fusion"
+        },
+        data:intensityData
+    };
 
-const DonutChart = () => {
-    return <ReactFC {...chartConfigs} />;
+    const chartConfigs = {
+        type: "doughnut2d",
+        width: "100%",
+        height: "95%",
+        dataFormat: "JSON",
+        dataSource: dataSource
+    };
+
+    useEffect(() => {
+        const intensityMap = new Map();
+        for (let i of epochData) {
+            if (!intensityMap.has(i.intensity)) {
+                intensityMap.set(i.intensity, 1);
+            } else {
+                intensityMap.set(i.intensity, intensityMap.get(i.intensity) + 1);
+            }
+        }
+        setIntensityData([...intensityMap].map((item) => {
+            return {label: item[0], value: item[1]}
+        }))
+
+        console.log(intensityData)
+    }, [epochData])
+
+    return (
+        <div style={{display: 'block', margin: 'auto', width: '95%'}}>
+            <ReactFC {...chartConfigs} />
+        </div>
+    )
 }
 
 export default DonutChart;

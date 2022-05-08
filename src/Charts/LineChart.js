@@ -73,13 +73,17 @@ const dataSource = {
 const chartConfigs = {
     type: "line",
     width: "100%",
-    height: "100%",
+    height: "95%",
     dataFormat: "JSON",
     dataSource: dataSource
 };
 
 const LineChart = () => {
-    return <ReactFC {...chartConfigs} />;
+    return (
+        <div style={{display:'block', margin:'auto', width:'95%'}}>
+            <ReactFC {...chartConfigs} />
+        </div>
+    )
 }
 
 export default LineChart;

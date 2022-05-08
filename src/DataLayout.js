@@ -1,15 +1,49 @@
 import {Row, Col, Divider, Layout, Card} from 'antd';
-import './dataVisual.css';
+import './StyleSheet/dashboardStyle.css';
 import BarChart from "./Charts/BarChart";
 import LineChart from "./Charts/LineChart";
 import DonutChart from "./Charts/DonutChart";
+import Calories from "./DataBoard/Calories";
+import Steps from "./DataBoard/Steps";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {dummyEpochData} from "./DummyData";
 
 const {Header, Footer, Sider, Content} = Layout;
 
-const topStyle = {background: '#0092ff', padding: '8px 0', height: '50vh'};
-const midStyle = {background: '#0092ff', padding: '8px 0', height: '20vh'};
-const botStyle = {background: '#0092ff', padding: '8px 0', height: '50vh'};
-const DataLayout = () => {
+const topStyle = {height: '30rem', position: 'relative'};
+const midStyle = {height: '12rem', position: 'relative'};
+const botStyle = {height: '30rem', position: 'relative'};
+
+const activityUrl = "https://lk-redback2.herokuapp.com"
+const DataLayout = ({user}) => {
+    const [epochData, setEpochData] = useState([]);
+
+    useEffect(() => {
+        axios({
+            method: "GET",
+            url: `${activityUrl}/activity/getActivityByUsername`,
+            headers: {
+                // "Access-Control-Allow-Origin": "*",
+                Accept: "application/json",
+                // "Content-Type": "application/json",
+                // "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
+            },
+            // data: bodyFormData,
+            params: {
+                username: user.username,
+            },
+        })
+            .then((res) => {
+                console.log("res: ", res);
+                // setepochData(res.data);
+                setEpochData(dummyEpochData);
+            })
+            .catch((error) => {
+                console.log("error: ", error)
+            });
+    }, [])
+    console.log(epochData)
     return (
         <>
             {/*<Layout>*/}
@@ -20,35 +54,40 @@ const DataLayout = () => {
                 <Row gutter={[20, 16]}>
                     {/*{top data dashboard}*/}
                     <Col className="gutter-row" span={16}>
-                        {/*<div style={topStyle}>col-6</div>*/}
-                        <div className={'dataBoarder'} style={{height: '50vh'}}>
-                            <BarChart />
+                        <div className={'dataBoarder'} style={topStyle}>
+                            <BarChart/>
                         </div>
                     </Col>
                     <Col className="headerBoard" span={8}>
-                        {/*<div style={topStyle}>col-6</div>*/}
-                        <DonutChart style={{height: '50vh'}}/>
+                        <div className={'dataBoarder'} style={topStyle}>
+                            <DonutChart epochData={epochData}/>
+                        </div>
                     </Col>
                     {/*{middle data dashboard}*/}
                     <Col span={6}>
-                        <div style={midStyle}>col-6</div>
+                        <div className={'dataBoarder'} style={midStyle}>
+                            <Calories epochData={epochData}/>
+                        </div>
                     </Col>
                     <Col span={6}>
-                        <div style={midStyle}>col-6</div>
+                        <div className={'dataBoarder'} style={midStyle}>
+                            <Steps epochData={epochData}/>
+                        </div>
                     </Col>
                     <Col span={6}>
-                        <div style={midStyle}>col-6</div>
+                        <div className={'dataBoarder'} style={midStyle}></div>
                     </Col>
                     <Col span={6}>
-                        <div style={midStyle}>col-6</div>
+                        <div className={'dataBoarder'} style={midStyle}></div>
                     </Col>
                     {/*{bottom data dashboard}*/}
                     <Col span={18}>
-                        {/*<div style={botStyle}>col-6</div>*/}
-                       <LineChart style={{height: '50vh'}}/>
+                        <div className={'dataBoarder'} style={topStyle}>
+                            <LineChart/>
+                        </div>
                     </Col>
                     <Col span={6}>
-                        <div style={botStyle}>col-6</div>
+                        <div className={'dataBoarder'} style={botStyle}></div>
                     </Col>
                 </Row>
             </Content>

@@ -15,35 +15,6 @@ const Home = ({user}) => {
     } else {
         const {email, fullname, username, userId, userAccessToken} = user;
 
-        // const handleTest=()=>{
-        //     axios({
-        //         method: "https://lk-redback2.herokuapp.com/activities",
-        //         url: `${authUrl}`,
-        //         headers: {
-        //             // "Access-Control-Allow-Origin": "*",
-        //             Accept: "*/*",
-        //             // "Content-Type": "application/json",
-        //             // "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
-        //         },
-        //         // data: bodyFormData,
-        //         params: {
-        //             username: username,
-        //         },
-        //     })
-        //         .then((res) => {
-        //             // console.log(res.headers)
-        //             // console.log("username is", bodyFormData);
-        //             console.log("res: ", res);
-        //             // console.log("data", res.data.url);
-        //             // redirect = res.data.url
-        //             // redirect.push.apply(redirect, res.data.url)
-        //             // setRediret(res.data.url);
-        //             // window.open(res.data.url);
-        //             // console.log("redirect", redirect);
-        //         })
-        //         .catch((error) => console.log("error: ", error));
-        // }
-
         const handlePermission = () => {
             axios({
                 method: "POST",

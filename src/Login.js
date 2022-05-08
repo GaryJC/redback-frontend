@@ -1,10 +1,12 @@
-import {Form, Input, Button, Checkbox} from 'antd';
+import {Form, Input, Button, Checkbox, Card, message} from 'antd';
 import {Row, Col} from 'antd';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import './StyleSheet/dashboardStyle.css';
 
-const loginUrl = "http://localhost:8080/login";
+// const loginUrl = "http://localhost:8080/login";
+const loginUrl = "https://lk-redback2.herokuapp.com/login";
 const Login = ({setUser}) => {
         const navigate = useNavigate();
         const onFinish = (values) => {
@@ -28,15 +30,23 @@ const Login = ({setUser}) => {
                 //mode: "no-cors",
             })
                 .then((res) => {
-                    console.log("response", res);
+                    console.log("response: ", res);
                     // this.setState({user: res.data})
                     // console.log('user is ',this.state.user)
                     // redirect to home page
-                    setUser(res.data);
-                    navigate('/dashboard');
+                    // setUser(res.data);
+                    sessionStorage.setItem('user', JSON.stringify(res.data));
+                    console.log(typeof (JSON.parse(sessionStorage.getItem('user'))));
+                    setUser(JSON.parse(sessionStorage.getItem('user')));
+                    if (res.data.userAccessToken) {
+                        navigate('/dashboard');
+                    } else {
+                        navigate('/home');
+                    }
                 })
                 .catch((error) => {
                     // this.setState({ isShow: true });
+                    message.error("Error");
                     console.log("error: ", error);
                 });
         };
@@ -47,73 +57,87 @@ const Login = ({setUser}) => {
 
         return (
             <>
-                <Row style={{height: "100vh"}} justify="center" align="middle">
-                    <Col span={8}>
-                        <Form
-                            name="basic"
-                            labelCol={{
-                                span: 8,
-                            }}
-                            wrapperCol={{
-                                span: 16,
-                            }}
-                            initialValues={{
-                                remember: true,
-                            }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
-                            autoComplete="off"
-                        >
-                            <Form.Item
-                                label="Username"
-                                name="username"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your username!',
-                                    },
-                                ]}
-                            >
-                                <Input/>
-                            </Form.Item>
+                {/*<div style={{background: '#319de5'}}>*/}
+                <div className={'loginBackground'}>
+                    <Row style={{height: "100vh"}} justify="center" align="middle">
+                        <Col span={6}>
+                            <div className={'loginBoard'}>
+                                {/*<div style={{background: '#3498db'}}>*/}
+                                <h1 style={{textAlign: 'center'}}>LOGIN</h1>
+                                {/*</div>*/}
+                                <Form
+                                    name="basic"
+                                    labelCol={{
+                                        span: 8
+                                    }}
+                                    wrapperCol={{
+                                        span: 10,
+                                    }}
+                                    initialValues={{
+                                        remember: true,
+                                    }}
+                                    onFinish={onFinish}
+                                    onFinishFailed={onFinishFailed}
+                                    autoComplete="off"
+                                >
+                                    <Form.Item
+                                        label="Username"
+                                        name="username"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your username!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input/>
+                                    </Form.Item>
 
-                            <Form.Item
-                                label="Password"
-                                name="password"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
-                                ]}
-                            >
-                                <Input.Password/>
-                            </Form.Item>
+                                    <Form.Item
+                                        label="Password"
+                                        name="password"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your password!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input.Password/>
+                                    </Form.Item>
 
-                            <Form.Item
-                                name="remember"
-                                valuePropName="checked"
-                                wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
-                                }}
-                            >
-                                <Checkbox>Remember me</Checkbox>
-                            </Form.Item>
+                                    <Form.Item
+                                        name="remember"
+                                        valuePropName="checked"
+                                        wrapperCol={{
+                                            offset: 8,
+                                            span: 16,
+                                        }}
+                                    >
+                                        <Checkbox>Remember me</Checkbox>
+                                    </Form.Item>
 
-                            <Form.Item
-                                wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
-                                }}
-                            >
-                                <Button type="primary" htmlType="submit">
-                                    Submit
-                                </Button>
-                            </Form.Item>
-                        </Form>
-                    </Col>
-                </Row>
+                                    {/*<Form.Item*/}
+                                    {/*    wrapperCol={{*/}
+                                    {/*        offset: 10.5,*/}
+                                    {/*        span: 14,*/}
+                                    {/*    }}*/}
+                                    {/*>*/}
+                                    <Button type="primary" htmlType="submit" shape="round"
+                                            style={{display: "block", margin: 'auto', width: '10rem', fontWeight: 'bold'}}>
+                                        LOGIN
+                                    </Button>
+                                    <a onClick={() => navigate('/signup')} style={{
+                                        display: "block",
+                                        textAlign: 'center',
+                                        paddingTop: '1rem',
+                                        fontWeight: 'bold'
+                                    }}>Register an account!</a>
+                                </Form>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
             </>
         );
     }

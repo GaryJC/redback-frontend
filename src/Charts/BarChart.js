@@ -19,6 +19,7 @@ const dataSource = {
         palettecolors: "#66c0ff",
         usePlotGradientColor: "1",
         plotGradientColor: "#45a6dc",
+        // showBorder: "1",
     },
     data: [
         {
@@ -58,14 +59,18 @@ const dataSource = {
 
 const chartConfigs = {
     type: 'column2d',
-    width: 600,
-    height: 400,
+    width: '100%',
+    height: '95%',
     dataFormat: 'json',
     dataSource: dataSource,
 };
 
 const BarChart = () => {
-    return <ReactFC {...chartConfigs} />;
+    return (
+        <div style={{display:'block', margin:'auto', width:'95%'}}>
+                <ReactFC {...chartConfigs} />
+        </div>
+    )
 }
 
 export default BarChart;
