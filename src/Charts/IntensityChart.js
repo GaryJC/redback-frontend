@@ -1,5 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
-import ReactDOM from 'react-dom';
+import React, {useEffect, useState} from 'react';
 import FusionCharts from 'fusioncharts';
 import Charts from 'fusioncharts/fusioncharts.charts';
 import ReactFC from 'react-fusioncharts';
@@ -8,13 +7,14 @@ import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 // Resolves charts dependancy
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 
-const DonutChart = ({epochData}) => {
+const IntensityChart = ({activityData}) => {
+    // console.log(activityData)
     const [intensityData, setIntensityData] = useState([]);
-    // let intensityData = [];
 
     const dataSource = {
         chart: {
             caption: "Activities Intensity",
+            captionFont:'Roboto',
             // subcaption: "For all users in 2017",
             showpercentvalues: "1",
             // defaultcenterlabel: "Android Distribution",
@@ -26,11 +26,11 @@ const DonutChart = ({epochData}) => {
             centerlabel: "# Users: $value",
             theme: "fusion"
         },
-        data:intensityData
+        data: intensityData
     };
 
     const chartConfigs = {
-        type: "doughnut2d",
+        type: "pie2d",
         width: "100%",
         height: "95%",
         dataFormat: "JSON",
@@ -39,7 +39,7 @@ const DonutChart = ({epochData}) => {
 
     useEffect(() => {
         const intensityMap = new Map();
-        for (let i of epochData) {
+        for (let i of activityData) {
             if (!intensityMap.has(i.intensity)) {
                 intensityMap.set(i.intensity, 1);
             } else {
@@ -50,8 +50,8 @@ const DonutChart = ({epochData}) => {
             return {label: item[0], value: item[1]}
         }))
 
-        console.log(intensityData)
-    }, [epochData])
+        // console.log(intensityData)
+    }, [activityData])
 
     return (
         <div style={{display: 'block', margin: 'auto', width: '95%'}}>
@@ -60,4 +60,4 @@ const DonutChart = ({epochData}) => {
     )
 }
 
-export default DonutChart;
+export default IntensityChart;

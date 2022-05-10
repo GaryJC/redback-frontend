@@ -1,8 +1,7 @@
-import React, {useEffect, useState, useContext} from "react";
-import {BrowserRouter, Routes, Route, Outlet} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Login from "./Login";
 import Signup from "./Signup";
-import NavBar from "./NavBar";
 import Home from "./Home";
 import Dashboard from "./Dashboard";
 import ApiTest from "./ApiTest";

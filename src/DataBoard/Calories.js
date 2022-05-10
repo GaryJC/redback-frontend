@@ -1,19 +1,17 @@
-import {useContext, useEffect, useState} from "react";
-import {UserContext} from "../App";
+import {useEffect, useState} from "react";
 
-const Calories = ({epochData}) => {
+const Calories = ({activityData}) => {
     const [totalCalories, setTotalCalories] = useState([])
 
     useEffect(() => {
-        setTotalCalories(epochData.reduce((pre, cur) =>
+        setTotalCalories(activityData.reduce((pre, cur) =>
             pre + cur.activeKilocalories, 0
         ))
-    }, [epochData])
+    }, [activityData])
 
-    console.log(totalCalories)
     return (
         <>
-            <h1 className={'dataHeader'}>Calories</h1>
+            <h1 className={'dataHeader'}>TOTAL CALORIES</h1>
             <span className={'dataText'}>{totalCalories}</span>
         </>
     )

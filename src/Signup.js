@@ -1,6 +1,4 @@
-import {Form, Input, Button, Checkbox, message} from 'antd';
-import {Row, Col} from 'antd';
-import {useEffect, useState} from "react";
+import {Button, Col, Form, Input, message, Row} from 'antd';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
