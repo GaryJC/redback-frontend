@@ -57,11 +57,11 @@ const Login = ({setUser}) => {
             <>
                 {/*<div style={{background: '#319de5'}}>*/}
                 <div className={'loginBackground'}>
-                    <Row style={{height: "100vh"}} justify="center" align="middle">
+                    <Row style={{height: "100vh", fontWeight:'bold'}} justify="center" align="middle">
                         <Col span={6}>
                             <div className={'loginBoard'}>
                                 {/*<div style={{background: '#3498db'}}>*/}
-                                <h1 style={{textAlign: 'center'}}>LOGIN</h1>
+                                <h1 style={{textAlign: 'center', fontWeight:'bold'}}>Login</h1>
                                 {/*</div>*/}
                                 <Form
                                     name="basic"

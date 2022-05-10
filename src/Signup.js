@@ -51,11 +51,11 @@ const Signup = () => {
     return (
         <>
             <div className={'loginBackground'}>
-                <Row style={{height: "100vh"}} justify="center" align="middle">
+                <Row style={{height: "100vh", fontWeight:'bold'}} justify="center" align="middle">
                     <Col span={8}>
                         {/*{isRegistered ? <span>Registered Successfully</span> : <span></span>}*/}
                         <div className={'loginBoard'}>
-                            <h1 style={{textAlign: 'center'}}>SIGNUP</h1>
+                            <h1 style={{textAlign: 'center', fontWeight:'bold'}}>Signup</h1>
                             <Form
                                 name="basic"
                                 labelCol={{
