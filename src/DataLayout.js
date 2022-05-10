@@ -1,4 +1,4 @@
-import {Col, Layout, Row, Progress} from 'antd';
+import {Col, Layout, Row, Progress, Spin} from 'antd';
 import './StyleSheet/dashboardStyle.css';
 import BarChart from "./Charts/BarChart";
 import LineChart from "./Charts/LineChart";
@@ -20,8 +20,10 @@ const activityUrl = "https://lk-redback2.herokuapp.com"
 const DataLayout = ({user}) => {
     const [activityData, setActivityData] = useState([]);
     const [timeLineData, setTimeLineData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
-        axios({
+        const getActvityData = axios({
             method: "GET",
             url: `${activityUrl}/activity/getEpochByAccessToken`,
             headers: {
@@ -37,14 +39,15 @@ const DataLayout = ({user}) => {
         })
             .then((res) => {
                 console.log("getEpochByAccessToken: ", res);
-                setActivityData(res.data);
+                return res.data
+                // setActivityData(res.data);
                 // setActivityData(dummyEpochData);
             })
             .catch((error) => {
                 console.log("error: ", error)
             });
 
-        axios({
+        const getTimeLineData = axios({
             method: "GET",
             url: `${activityUrl}/activity/getEpochTimeLineByAccessToken`,
             headers: {
@@ -60,12 +63,18 @@ const DataLayout = ({user}) => {
         })
             .then((res) => {
                 console.log("getEpochTimeLineByAccessToken: ", res);
-                // setActivityData(res.data);
-                setTimeLineData(res.data)
+                return res.data
+                // setTimeLineData(res.data)
             })
             .catch((error) => {
                 console.log("error: ", error)
             });
+
+        Promise.allSettled([getActvityData, getTimeLineData]).then(res=> {
+            setActivityData(res[0].value);
+            setTimeLineData(res[1].value);
+            setIsLoading(true);
+        });
 
     }, [])
 
@@ -76,19 +85,25 @@ const DataLayout = ({user}) => {
                     {/*{top data dashboard}*/}
                     <Col span={6}>
                         <div className={'dataBoarder'} style={midStyle}>
-                            <Calories activityData={activityData}/>
+                            {isLoading ? <Calories activityData={activityData}/> : <div className={'spin'}>
+                                <Spin/>
+                            </div>}
                         </div>
                     </Col>
                     <Col span={6}>
                         <div className={'dataBoarder'} style={midStyle}>
-                            <Steps activityData={activityData}/>
+                            {isLoading ? <Steps activityData={activityData}/> : <div className={'spin'}>
+                                <Spin/>
+                            </div>}
                         </div>
                     </Col>
                     <Col span={6}>
                         <div className={'dataBoarder'} style={midStyle}>
-                            <div className={'dataText'}>
+                            {isLoading ? <div className={'dataText'}>
                                 <Progress type="circle" percent={75}/>
-                            </div>
+                            </div> : <div className={'spin'}>
+                                <Spin/>
+                            </div>}
                         </div>
                     </Col>
                     <Col span={6}>
@@ -98,24 +113,38 @@ const DataLayout = ({user}) => {
                     {/*{middle data dashboard}*/}
                     <Col className="gutter-row" span={16}>
                         <div className={'dataBoarder'} style={topStyle}>
-                            <BarChart timeLineData={timeLineData}/>
+                            {isLoading ? <BarChart timeLineData={timeLineData}/> : <div className={'spin'}>
+                                <Spin/>
+                            </div>}
                         </div>
                     </Col>
                     <Col className="headerBoard" span={8}>
                         <div className={'dataBoarder'} style={topStyle}>
-                            <IntensityChart activityData={activityData}/>
+                            <div className={'dataBoarder'} style={topStyle}>
+                                {isLoading ? <IntensityChart activityData={activityData}/> : <div className={'spin'}>
+                                    <Spin/>
+                                </div>}
+                            </div>
                         </div>
                     </Col>
 
                     {/*{bottom data dashboard}*/}
                     <Col span={9}>
                         <div className={'dataBoarder'} style={botStyle}>
-                            <ActivityTypeChart activityData={activityData}/>
+                            <div className={'dataBoarder'} style={topStyle}>
+                                {isLoading ?  <ActivityTypeChart activityData={activityData}/> : <div className={'spin'}>
+                                    <Spin/>
+                                </div>}
+                            </div>
                         </div>
                     </Col>
                     <Col span={15}>
                         <div className={'dataBoarder'} style={topStyle}>
-                            <LineChart timeLineData={timeLineData}/>
+                            <div className={'dataBoarder'} style={topStyle}>
+                                {isLoading ?   <LineChart timeLineData={timeLineData}/> : <div className={'spin'}>
+                                    <Spin/>
+                                </div>}
+                            </div>
                         </div>
                     </Col>
 
