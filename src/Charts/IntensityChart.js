@@ -13,7 +13,7 @@ const IntensityChart = ({activityData}) => {
 
     const dataSource = {
         chart: {
-            caption: "Activities Intensity",
+            caption: "Activity Intensities",
             captionFont:'Roboto',
             // subcaption: "For all users in 2017",
             showpercentvalues: "1",
@@ -30,7 +30,7 @@ const IntensityChart = ({activityData}) => {
     };
 
     const chartConfigs = {
-        type: "pie2d",
+        type: "doughnut2d",
         width: "100%",
         height: "95%",
         dataFormat: "JSON",

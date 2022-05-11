@@ -1,4 +1,4 @@
-import {Col, Layout, Row, Progress, Spin} from 'antd';
+import {Col, Layout, Progress, Row, Spin} from 'antd';
 import './StyleSheet/dashboardStyle.css';
 import BarChart from "./Charts/BarChart";
 import LineChart from "./Charts/LineChart";
@@ -8,7 +8,6 @@ import Calories from "./DataBoard/Calories";
 import Steps from "./DataBoard/Steps";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {dummyEpochData} from "./DummyData";
 
 const {Header, Footer, Sider, Content} = Layout;
 
@@ -37,15 +36,15 @@ const DataLayout = ({user}) => {
                 accessToken: user.userAccessToken,
             },
         })
-            .then((res) => {
-                console.log("getEpochByAccessToken: ", res);
-                return res.data
-                // setActivityData(res.data);
-                // setActivityData(dummyEpochData);
-            })
-            .catch((error) => {
-                console.log("error: ", error)
-            });
+            // .then((res) => {
+            //     console.log("getEpochByAccessToken: ", res);
+            //     return res.data
+            //     // setActivityData(res.data);
+            //     // setActivityData(dummyEpochData);
+            // })
+            // .catch((error) => {
+            //     console.log("error: ", error)
+            // });
 
         const getTimeLineData = axios({
             method: "GET",
@@ -61,18 +60,19 @@ const DataLayout = ({user}) => {
                 accessToken: user.userAccessToken,
             },
         })
-            .then((res) => {
-                console.log("getEpochTimeLineByAccessToken: ", res);
-                return res.data
-                // setTimeLineData(res.data)
-            })
-            .catch((error) => {
-                console.log("error: ", error)
-            });
+            // .then((res) => {
+            //     console.log("getEpochTimeLineByAccessToken: ", res);
+            //     return res.data
+            //     // setTimeLineData(res.data)
+            // })
+            // .catch((error) => {
+            //     console.log("error: ", error)
+            // });
 
         Promise.allSettled([getActvityData, getTimeLineData]).then(res=> {
-            setActivityData(res[0].value);
-            setTimeLineData(res[1].value);
+            console.log("res: ", res);
+            res[0].status==="fulfilled"? setActivityData(res[0].value.data):setActivityData([]);
+            res[1].status==='fulfilled'?setTimeLineData(res[1].value.data):setTimeLineData([]);
             setIsLoading(true);
         });
 

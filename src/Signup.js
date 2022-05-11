@@ -2,7 +2,7 @@ import {Button, Col, Form, Input, message, Row} from 'antd';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-const signupUrl = "http://localhost:8080/register";
+const signupUrl = "https://lk-redback2.herokuapp.com/register";
 const Signup = () => {
     // const [isRegistered, setIsRegistered] = useState(false);
     const navigate = useNavigate();

@@ -2,7 +2,7 @@ import React from "react";
 import {Button} from 'antd';
 import axios from "axios";
 
-const authUrl = "http://localhost:8080/auth/requestToken";
+const authUrl = "https://lk-redback2.herokuapp.com/auth/requestToken";
 const Home = ({user}) => {
     console.log("user: ", user)
 
