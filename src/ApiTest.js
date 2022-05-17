@@ -7,12 +7,19 @@ const testUrl = "https://lk-redback2.herokuapp.com";
 const ApiTest = ({user}) => {
     // const[]
     console.log(user);
+    const [testURL, setTestURL] = useState('');
     const [testResult, setTestResult] = useState(null);
+    const changeURL=(event)=>{
+        console.log("e: ", event)
+        setTestURL(event.target.value);
+    }
     const handleTest = () => {
         axios({
             method: "GET",
             // url: `${testUrl}/activity/getEpochByAccessToken`,
-            url:`https://apis.garmin.com/userPermissions`,
+            // url:`https://apis.garmin.com/userPermissions/`,
+            // https://lk-redback2.herokuapp.com/activity/getEpochByAccessToken
+            url: testURL,
             headers: {
                 // "Access-Control-Allow-Origin": "*",
                 Accept: "application/json",
@@ -36,6 +43,7 @@ const ApiTest = ({user}) => {
     }
     return (
         <>
+            <span>API URL: </span><input onChange={changeURL} value={testURL}/>
         <Button type={'primary'} onClick={handleTest} shape={'round'}>Test</Button>
             <div>Test Result: {JSON.stringify(testResult)}</div>
         </>

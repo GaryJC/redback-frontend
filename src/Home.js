@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from 'antd';
 import axios from "axios";
-
+// require('dotenv').config();
 const authUrl = "https://lk-redback2.herokuapp.com/auth/requestToken";
 const Home = ({user}) => {
     console.log("user: ", user)
@@ -31,15 +31,8 @@ const Home = ({user}) => {
                 },
             })
                 .then((res) => {
-                    // console.log(res.headers)
-                    // console.log("username is", bodyFormData);
                     console.log("res: ", res);
-                    // console.log("data", res.data.url);
-                    // redirect = res.data.url
-                    // redirect.push.apply(redirect, res.data.url)
-                    // setRediret(res.data.url);
                     window.open(res.data.url);
-                    // console.log("redirect", redirect);
                 })
                 .catch((error) => console.log("error: ", error));
         }
@@ -54,9 +47,10 @@ const Home = ({user}) => {
         } else {
             return (
                 <>
-                    <h2>You have not connected to Garmin yet!</h2>
-                    <Button type="primary" onClick={handlePermission}>Connect</Button>
-                    {/*<Button type="primary" onClick={handleTest}>Test</Button>*/}
+                    <div style={{height:'100vh', display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
+                    <h1 style={{fontWeight:'bold'}}>You have not connected to Garmin yet!</h1>
+                    <Button shape="round" type="primary" onClick={handlePermission} >Connect</Button>
+                    </div>
                 </>
             )
         }

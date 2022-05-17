@@ -15,7 +15,7 @@ const topStyle = {height: '30rem'};
 const midStyle = {height: '12rem'};
 const botStyle = {height: '30rem'};
 
-const activityUrl = "https://lk-redback2.herokuapp.com"
+const rootURL = process.env.REACT_APP_API_URL;
 const DataLayout = ({user}) => {
     const [activityData, setActivityData] = useState([]);
     const [timeLineData, setTimeLineData] = useState([]);
@@ -24,7 +24,7 @@ const DataLayout = ({user}) => {
     useEffect(() => {
         const getActvityData = axios({
             method: "GET",
-            url: `${activityUrl}/activity/getEpochByAccessToken`,
+            url: `${rootURL}/activity/getEpochByAccessToken`,
             headers: {
                 // "Access-Control-Allow-Origin": "*",
                 Accept: "application/json",
@@ -48,7 +48,7 @@ const DataLayout = ({user}) => {
 
         const getTimeLineData = axios({
             method: "GET",
-            url: `${activityUrl}/activity/getEpochTimeLineByAccessToken`,
+            url: `${rootURL}/activity/getEpochTimeLineByAccessToken`,
             headers: {
                 // "Access-Control-Allow-Origin": "*",
                 Accept: "application/json",
@@ -70,7 +70,7 @@ const DataLayout = ({user}) => {
             // });
 
         Promise.allSettled([getActvityData, getTimeLineData]).then(res=> {
-            console.log("res: ", res);
+            // console.log("res: ", res);
             res[0].status==="fulfilled"? setActivityData(res[0].value.data):setActivityData([]);
             res[1].status==='fulfilled'?setTimeLineData(res[1].value.data):setTimeLineData([]);
             setIsLoading(true);
@@ -112,39 +112,33 @@ const DataLayout = ({user}) => {
 
                     {/*{middle data dashboard}*/}
                     <Col className="gutter-row" span={16}>
-                        <div className={'dataBoarder'} style={topStyle}>
+                        <div className={'dataBoarder chart'} style={topStyle}>
                             {isLoading ? <BarChart timeLineData={timeLineData}/> : <div className={'spin'}>
                                 <Spin/>
                             </div>}
                         </div>
                     </Col>
                     <Col className="headerBoard" span={8}>
-                        <div className={'dataBoarder'} style={topStyle}>
-                            <div className={'dataBoarder'} style={topStyle}>
+                        <div className={'dataBoarder chart'} style={topStyle}>
                                 {isLoading ? <IntensityChart activityData={activityData}/> : <div className={'spin'}>
                                     <Spin/>
                                 </div>}
-                            </div>
                         </div>
                     </Col>
 
                     {/*{bottom data dashboard}*/}
                     <Col span={9}>
-                        <div className={'dataBoarder'} style={botStyle}>
-                            <div className={'dataBoarder'} style={topStyle}>
+                        <div className={'dataBoarder chart'} style={botStyle}>
                                 {isLoading ?  <ActivityTypeChart activityData={activityData}/> : <div className={'spin'}>
                                     <Spin/>
                                 </div>}
-                            </div>
                         </div>
                     </Col>
                     <Col span={15}>
-                        <div className={'dataBoarder'} style={topStyle}>
-                            <div className={'dataBoarder'} style={topStyle}>
+                        <div className={'dataBoarder chart'} style={topStyle}>
                                 {isLoading ?   <LineChart timeLineData={timeLineData}/> : <div className={'spin'}>
                                     <Spin/>
                                 </div>}
-                            </div>
                         </div>
                     </Col>
 

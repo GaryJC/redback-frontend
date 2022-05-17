@@ -3,7 +3,6 @@ import FusionCharts from 'fusioncharts';
 import Charts from 'fusioncharts/fusioncharts.charts';
 import ReactFC from 'react-fusioncharts';
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
-
 // Resolves charts dependancy
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 

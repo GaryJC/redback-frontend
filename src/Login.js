@@ -3,15 +3,15 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import './StyleSheet/dashboardStyle.css';
 
-// const loginUrl = "http://localhost:8080/login";
-const loginUrl = "https://lk-redback2.herokuapp.com/login";
+const rootURL = process.env.REACT_APP_API_URL;
+// const loginUrl = "https://lk-redback2.herokuapp.com/login";
 const Login = ({setUser}) => {
         const navigate = useNavigate();
         const onFinish = (values) => {
             console.log('Success:', values);
             axios({
                 method: "post",
-                url: `${loginUrl}`,
+                url: `${rootURL}/login`,
                 // url: "http://localhost:8080/login",
                 //https://coaching-mate0121.herokuapp.com/login
                 headers: {

@@ -2,8 +2,10 @@ import {Table, Modal} from 'antd';
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "./App";
 import axios from "axios";
+import FusionCharts from "fusioncharts";
+import charts from "fusioncharts/fusioncharts.charts";
+import ReactFC from "react-fusioncharts";
 import DetailsModal from "./DetailsModal";
-import './StyleSheet/dashboardStyle.css';
 
 const rootURL = process.env.REACT_APP_API_URL;
 const columns = [
@@ -29,11 +31,6 @@ const columns = [
         sorter: (a, b) => a.calories - b.calories,
     },
     {
-        title: 'Pace in time per km',
-        dataIndex: 'pace',
-        sorter: (a, b) => a.pace - b.pace,
-    },
-    {
         title: 'Ave Cadence',
         dataIndex: 'cadence',
         sorter: (a, b) => a.cadence - b.cadence,
@@ -56,16 +53,16 @@ const columns = [
     // },
 ];
 
-const RunTable = () => {
+const BikeTable = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const {user: {userAccessToken}} = useContext(UserContext);
-    const [runData, setRunData] = useState([]);
+    const [bikeData, setBikeData] = useState([]);
     const [detailsData, setDetailsData] = useState([]);
     const [loading, isLoading] = useState(true);
     useEffect(() => {
         axios({
             method: "GET",
-            url: `${rootURL}/activity/getRunningActivityByAccessToken`,
+            url: `${rootURL}/activity/getCyclingActivityByAccessToken`,
             headers: {
                 // "Access-Control-Allow-Origin": "*",
                 Accept: "application/json",
@@ -79,16 +76,16 @@ const RunTable = () => {
         })
             .then((res) => {
                 // console.log("res: ", res);
-                setRunData(res.data.map(({
-                                             time,
-                                             distance,
-                                             avgSpeed,
-                                             pace,
-                                             calories,
-                                             details,
-                                             heartRate,
-                                             avgCadence
-                                         }, key) => {
+                setBikeData(res.data.map(({
+                                              time,
+                                              distance,
+                                              avgSpeed,
+                                              pace,
+                                              calories,
+                                              details,
+                                              heartRate,
+                                              avgCadence
+                                          }, key) => {
                     return {
                         key: key,
                         time: time,
@@ -119,10 +116,8 @@ const RunTable = () => {
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
             showModal();
-            // console.log(data.filter(item=>item.key == selectedRowKeys))
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            setDetailsData(runData.filter(item => item.key == selectedRowKeys)[0]);
-            // console.log(runData)
+            setDetailsData(bikeData.filter(item => item.key == selectedRowKeys)[0]);
         },
         // getCheckboxProps: (record) => ({
         //     disabled: record.name === 'Disabled User',
@@ -137,14 +132,15 @@ const RunTable = () => {
 
     return (
         <>
-            <Modal title="Details" width={800} onCancel={handleCancel} visible={isModalVisible}
-                   footer={null}><DetailsModal detailsData={detailsData}/></Modal>
+            <Modal title="Basic Modal" width={800} onCancel={handleCancel} visible={isModalVisible}
+                   footer={null}><DetailsModal
+                detailsData={detailsData}/></Modal>
             <Table loading={loading} rowSelection={{
                 type: 'radio',
                 ...rowSelection,
-            }} columns={columns} dataSource={runData} onChange={onChange}/>
+            }} columns={columns} dataSource={bikeData} onChange={onChange}/>
         </>
     )
 }
 
-export default RunTable;
+export default BikeTable;

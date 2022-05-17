@@ -2,7 +2,8 @@ import {Button, Col, Form, Input, message, Row} from 'antd';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
-const signupUrl = "https://lk-redback2.herokuapp.com/register";
+const rootURL = process.env.REACT_APP_API_URL;
+// const signupUrl = "https://lk-redback2.herokuapp.com/register";
 const Signup = () => {
     // const [isRegistered, setIsRegistered] = useState(false);
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ const Signup = () => {
         console.log('Success:', values);
         axios({
                 method: "post",
-                url: `${signupUrl}`,
+                url: `${rootURL}/register`,
                 // url: "http://localhost:8080/register",
                 //https://coaching-mate0121.herokuapp.com/register`
                 headers: {
