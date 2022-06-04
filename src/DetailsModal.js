@@ -3,7 +3,8 @@ import Charts from "fusioncharts/fusioncharts.charts";
 import ReactFC from "react-fusioncharts";
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
 import {useEffect, useState} from "react";
-import { Radio } from 'antd';
+import {Radio} from 'antd';
+
 ReactFC.fcRoot(FusionCharts, Charts, FusionTheme);
 
 const DetailsModal = ({detailsData: {details}}) => {
@@ -20,7 +21,7 @@ const DetailsModal = ({detailsData: {details}}) => {
         setHeartRateData(details.map(({heartRate}, key) => {
             return {value: heartRate, label: key};
         }))
-        setSpeedData(details.map(({speedMetersPerSecond},key)=>{
+        setSpeedData(details.map(({speedMetersPerSecond}, key) => {
             return {value: speedMetersPerSecond, label: key}
         }))
     }, [details])
@@ -37,25 +38,25 @@ const DetailsModal = ({detailsData: {details}}) => {
             theme: "fusion"
         },
 
-        data: [
-            {
-                label: "1",
-                value: "138"
-            },
-            {
-                label: "2",
-                value: "145"
-            },
-            {
-                label: "3",
-                value: "111"
-            },
-            {
-                label: "4",
-                value: "91"
-            },
-        ]
-        // data: heartRateData
+        // data: [
+        //     {
+        //         label: "1",
+        //         value: "138"
+        //     },
+        //     {
+        //         label: "2",
+        //         value: "145"
+        //     },
+        //     {
+        //         label: "3",
+        //         value: "111"
+        //     },
+        //     {
+        //         label: "4",
+        //         value: "91"
+        //     },
+        // ]
+        data: heartRateData
     };
 
     const speedDataSource = {
@@ -70,40 +71,40 @@ const DetailsModal = ({detailsData: {details}}) => {
             theme: "fusion"
         },
 
-        data: [
-            {
-                label: "1",
-                value: "1"
-            },
-            {
-                label: "2",
-                value: "2"
-            },
-            {
-                label: "3",
-                value: "1"
-            },
-            {
-                label: "4",
-                value: "2"
-            },
-        ]
-        // data: speedData
+        // data: [
+        //     {
+        //         label: "1",
+        //         value: "1"
+        //     },
+        //     {
+        //         label: "2",
+        //         value: "2"
+        //     },
+        //     {
+        //         label: "3",
+        //         value: "1"
+        //     },
+        //     {
+        //         label: "4",
+        //         value: "2"
+        //     },
+        // ]
+        data: speedData
     };
 
     return (
         <>
-            <Radio.Group onChange={onChange} value={value} style={{display:'flex', justifyContent:'center'}}>
+            <Radio.Group onChange={onChange} value={value} style={{display: 'flex', justifyContent: 'center'}}>
                 <Radio value={1}>Heart Rate</Radio>
                 <Radio value={2}>Speed</Radio>
             </Radio.Group>
-        <ReactFC
-            type="area2d"
-            width="100%"
-            height="400"
-            dataFormat="JSON"
-            dataSource={value===1?heartRateDataSource:speedDataSource}
-        />
+            <ReactFC
+                type="area2d"
+                width="100%"
+                height="400"
+                dataFormat="JSON"
+                dataSource={value === 1 ? heartRateDataSource : speedDataSource}
+            />
         </>
     );
 }
